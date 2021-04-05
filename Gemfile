@@ -28,6 +28,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # My gems
 gem 'discordrb'
 gem 'dotenv-rails'
+gem 'humanize'
 
 
 group :development, :test do

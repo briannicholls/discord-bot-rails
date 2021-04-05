@@ -1,7 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To initialize and serve bot in Rails context, use
+
+```
+rails runner bin/bot_main.rb
+```
+
+
+
+
+
+
 
 Things you may want to cover:
 

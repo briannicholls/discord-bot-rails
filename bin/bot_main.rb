@@ -12,8 +12,6 @@ bot = Discordrb::Bot.new(
 
 bot.message(start_with: '!game') do |incoming_message|
 
-  binding.pry
-
   # Await a MessageEvent specifically from the invoking user.
   # Timeout defines how long a user can spend playing one game.
   # This does not affect subsequent games.
@@ -41,10 +39,32 @@ bot.message(start_with: '!game') do |incoming_message|
   
 end
 
-bot.messaage(with_text: '!d20') do |event|
-  
+
+bot.message(start_with: '!') do |event|
+  message_content = event.content
+  puts "Incoming message: #{message_content}"
+
+  # User is attempting a command
+  if ChatCommand.slug_valid? message_content
+    # regex checking if command is a dice roll
+    if is_dice_command?(message_content)
+
+      arr = message_content.gsub('!', '').split /[dD]/
+      options = {
+        qty:   arr[0].to_i == 0 ? 1 : arr[0].to_i,
+        sides: arr[1].to_i
+      }
+      puts "Dice roll options:"
+      puts "Sides: #{options[:sides]}, Qty: #{options[:qty]}"
+
+      response = "Rolled #{options[:qty].humanize} #{options[:sides]}-sided dice: "
+      response = response + roll_dice(options[:sides], options[:qty]).join(', ')
+
+      event.respond response
+    end
+
+  end
+
 end
-
-
 
 bot.run
